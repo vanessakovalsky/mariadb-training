@@ -490,6 +490,7 @@ ORDER BY t.TABLE_ROWS DESC;
 
 **Créer des tables identiques avec différents moteurs :**
 ```sql
+use formation_db;
 -- Table de test InnoDB
 CREATE TABLE test_innodb (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -548,6 +549,7 @@ CALL inserer_donnees_test(10000);
 ```sql
 -- Activer le profiling
 SET profiling = 1;
+use formation_db;
 
 -- Test de lecture InnoDB
 SELECT COUNT(*), AVG(valeur) FROM test_innodb WHERE valeur > 500;
