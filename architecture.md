@@ -225,11 +225,12 @@ PARTITIONS 8;
 ```sql
 CREATE TABLE produits (
     id INT AUTO_INCREMENT,
-    reference VARCHAR(50) NOT NULL UNIQUE,
+    reference VARCHAR(50) NOT NULL,
     nom VARCHAR(200),
     categorie VARCHAR(50) NOT NULL,
     prix DECIMAL(10,2),
     stock INT DEFAULT 0,
+    UNIQUE KEY (id, reference, categorie),
     PRIMARY KEY (id, categorie),
     INDEX idx_stock (stock)
 ) ENGINE=InnoDB
