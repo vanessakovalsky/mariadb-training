@@ -105,63 +105,8 @@ EOF
 chmod 600 /root/.my.cnf
 ```
 
-### Partie 2 : Script pour Windows
 
-**Créer le fichier** `C:\Scripts\backup_mariadb.bat`
-
-```batch
-@echo off
-REM ============================================
-REM Script de sauvegarde MariaDB pour Windows
-REM ============================================
-
-SET DB_USER=root
-SET DB_PASS=votre_mot_de_passe
-SET DB_NAME=atelier_backup
-SET BACKUP_DIR=C:\Backups\MariaDB
-SET MYSQL_BIN=C:\Program Files\MariaDB 10.11\bin
-SET REMOTE_USER=backup_user
-SET REMOTE_HOST=serveur-backup.domaine.com
-SET REMOTE_DIR=/backups/mariadb
-
-REM Créer le répertoire si nécessaire
-if not exist "%BACKUP_DIR%" mkdir "%BACKUP_DIR%"
-
-REM Nom du fichier avec horodatage
-for /f "tokens=2-4 delims=/ " %%a in ('date /t') do (set mydate=%%c%%a%%b)
-for /f "tokens=1-2 delims=/:" %%a in ('time /t') do (set mytime=%%a%%b)
-SET TIMESTAMP=%mydate%_%mytime%
-SET BACKUP_FILE=%DB_NAME%_%TIMESTAMP%.sql
-
-echo [%date% %time%] Debut de la sauvegarde
-
-REM Sauvegarde
-"%MYSQL_BIN%\mysqldump.exe" -u%DB_USER% -p%DB_PASS% ^
-    --single-transaction ^
-    --routines ^
-    --triggers ^
-    %DB_NAME% > "%BACKUP_DIR%\%BACKUP_FILE%"
-
-if %errorlevel% == 0 (
-    echo [%date% %time%] Sauvegarde reussie
-    
-    REM Transfert SFTP avec WinSCP ou PSFTP
-    echo open %REMOTE_HOST% > sftp_commands.txt
-    echo %REMOTE_USER% >> sftp_commands.txt
-    echo cd %REMOTE_DIR% >> sftp_commands.txt
-    echo put "%BACKUP_DIR%\%BACKUP_FILE%" >> sftp_commands.txt
-    echo bye >> sftp_commands.txt
-    
-    psftp -b sftp_commands.txt
-    del sftp_commands.txt
-    
-    echo [%date% %time%] Transfert termine
-) else (
-    echo [%date% %time%] Echec de la sauvegarde
-)
-```
-
-### Partie 3 : Configuration de la tâche planifiée
+### Partie 2 : Configuration de la tâche planifiée
 
 **Linux - Crontab (toutes les heures)**
 ```bash
@@ -175,21 +120,8 @@ crontab -e
 crontab -l
 ```
 
-**Windows - Planificateur de tâches**
-```powershell
-# Via PowerShell (exécuter en tant qu'Administrateur)
-$Action = New-ScheduledTaskAction -Execute "C:\Scripts\backup_mariadb.bat"
-$Trigger = New-ScheduledTaskTrigger -Once -At "00:00" -RepetitionInterval (New-TimeSpan -Hours 1)
-$Principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType ServiceAccount -RunLevel Highest
 
-Register-ScheduledTask -TaskName "BackupMariaDB_Hourly" `
-    -Action $Action `
-    -Trigger $Trigger `
-    -Principal $Principal `
-    -Description "Sauvegarde horaire de MariaDB"
-```
-
-### Partie 4 : Script de restauration (sans écraser le backup)
+### Partie 3 : Script de restauration (sans écraser le backup)
 
 **Linux** : `/opt/scripts/restore_mariadb.sh`
 
@@ -277,7 +209,7 @@ fi
 log_message "=== Fin de la restauration ===\n"
 ```
 
-### Partie 5 : Test complet
+### Partie 4 : Test complet
 
 **1. Configuration SSH sans mot de passe (clés SSH)**
 ```bash
