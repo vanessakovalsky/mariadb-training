@@ -89,12 +89,10 @@ SHOW VARIABLES LIKE 'port';
 **Modifier la configuration de PHPMyAdmin :**
 ```bash
 # Éditer le fichier de configuration
-sudo nano /etc/phpmyadmin/config.inc.php
+sudo nano /etc/phpmyadmin/config-db.php
 
 # Modifier la section serveur
-$cfg['Servers'][$i]['host'] = 'localhost';
 $cfg['Servers'][$i]['port'] = '3307';
-$cfg['Servers'][$i]['connect_type'] = 'tcp';
 ```
 
 **Redémarrer le serveur web :**
