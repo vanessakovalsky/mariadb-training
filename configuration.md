@@ -1,27 +1,8 @@
 # Atelier : Installation et configuration de MariaDB
 
-**Objectif :** Installer MariaDB, modifier sa configuration et tester l'accès depuis différents clients.
+**Objectif :** Configurer MariaDB tester l'accès depuis différents clients.
 
-### Exercice : Installation de MariaDB
 
-**Sur Linux (Debian/Ubuntu) :**
-```bash
-# Installation
-sudo apt update
-sudo apt install mariadb-server mariadb-client
-
-# Sécurisation
-sudo mysql_secure_installation
-
-# Vérification
-mysql --version
-sudo systemctl status mariadb
-```
-
-**Validez l'installation en vous connectant :**
-```bash
-mysql -u root -p
-```
 
 ### Exercice : Changement du port d'écoute
 
@@ -105,15 +86,7 @@ SHOW VARIABLES LIKE 'port';
 
 ### Exercice  : Configuration de PHPMyAdmin pour le nouveau port
 
-**Installation de PHPMyAdmin et apache2:**
-```bash
-sudo apt install apache2
-sudo apt install phpmyadmin
-```
-* Sur l'écran de configuration de phpmyadmin, sélectionner apache2 (avec la barre d'espace) puis allez sur OK
-* A la question "Créer la base de données phpmyadmin :" oui
-* Entrer un mot de passe pour phpmyadmin (à conserver)
-* Puis indiquer le mot de passe root de mariadb
+
 
 
 **Modifier la configuration de PHPMyAdmin :**
