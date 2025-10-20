@@ -53,6 +53,7 @@ mysqladmin -u root -p processlist
 **Installation de PHPMyAdmin et apache2:**
 ```bash
 sudo apt install apache2
+sudo apt install libapache2-mod-php
 sudo apt install phpmyadmin
 ```
 * Sur l'écran de configuration de phpmyadmin, sélectionner apache2 (avec la barre d'espace) puis allez sur OK
