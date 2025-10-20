@@ -303,7 +303,7 @@ INSERT INTO logs_application (timestamp_log, niveau, application, utilisateur_id
 **Afficher le statut complet d'une table :**
 ```sql
 -- Format étendu pour une table
-SHOW TABLE STATUS FROM formation_db LIKE 'employes'\G
+SHOW TABLE STATUS FROM formation_db LIKE 'employes';
 
 -- Format tabulaire
 SHOW TABLE STATUS FROM formation_db WHERE Name = 'employes';
