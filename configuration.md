@@ -25,9 +25,6 @@ sudo systemctl restart mariadb
 **Étape 3 : Vérifier le changement**
 ```bash
 # Vérifier que le port 3307 est en écoute
-sudo netstat -tlnp | grep 3307
-
-# Ou avec ss
 sudo ss -tlnp | grep 3307
 ```
 
