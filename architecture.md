@@ -469,17 +469,21 @@ WHERE TABLE_SCHEMA = 'formation_db'
 
 -- Tables volumineuses sans partitionnement
 SELECT 
-    TABLE_NAME,
-    ENGINE,
-    TABLE_ROWS,
-    ROUND((DATA_LENGTH + INDEX_LENGTH) / 1024 / 1024, 2) AS taille_mb,
+    t.TABLE_NAME,
+    t.ENGINE,
+    t.TABLE_ROWS,
+    ROUND((t.DATA_LENGTH + t.INDEX_LENGTH) / 1024 / 1024, 2) AS taille_mb,
     'Envisager le partitionnement' AS recommandation
-FROM information_schema.TABLES
-WHERE TABLE_SCHEMA = 'formation_db'
-  AND TABLE_ROWS > 100000
-  AND (DATA_LENGTH + INDEX_LENGTH) > 100 * 1024 * 1024
-  AND PARTITION_NAME IS NULL
-ORDER BY TABLE_ROWS DESC;
+FROM information_schema.TABLES t
+LEFT JOIN information_schema.PARTITIONS p
+    ON t.TABLE_SCHEMA = p.TABLE_SCHEMA 
+    AND t.TABLE_NAME = p.TABLE_NAME
+WHERE t.TABLE_SCHEMA = 'formation_db'
+  AND t.TABLE_ROWS > 100000
+  AND (t.DATA_LENGTH + t.INDEX_LENGTH) > 100 * 1024 * 1024
+  AND p.PARTITION_NAME IS NULL
+ORDER BY t.TABLE_ROWS DESC;
+
 ```
 
 ### Exercice 3.5 : Comparaison des moteurs de stockage
