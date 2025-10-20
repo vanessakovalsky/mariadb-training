@@ -105,10 +105,16 @@ SHOW VARIABLES LIKE 'port';
 
 ### Exercice  : Configuration de PHPMyAdmin pour le nouveau port
 
-**Installation de PHPMyAdmin:**
+**Installation de PHPMyAdmin et apache2:**
 ```bash
-
+sudo apt install apache2
+sudo apt install phpmyadmin
 ```
+* Sur l'écran de configuration de phpmyadmin, sélectionner apache2 (avec la barre d'espace) puis allez sur OK
+* A la question "Créer la base de données phpmyadmin :" oui
+* Entrer un mot de passe pour phpmyadmin (à conserver)
+* Puis indiquer le mot de passe root de mariadb
+
 
 **Modifier la configuration de PHPMyAdmin :**
 ```bash
@@ -124,8 +130,6 @@ $cfg['Servers'][$i]['connect_type'] = 'tcp';
 **Redémarrer le serveur web :**
 ```bash
 sudo systemctl restart apache2
-# ou
-sudo systemctl restart nginx
 ```
 
 **Se connecter via PHPMyAdmin :**
@@ -135,6 +139,10 @@ sudo systemctl restart nginx
 4. Explorer les bases de données système
 
 ### Exercice 2.6 : Test avec un outil graphique (DBeaver ou MySQL Workbench)
+
+**Installer DBeaver :**
+
+https://dbeaver.io/download/
 
 **Configuration de la connexion dans DBeaver :**
 1. Nouvelle connexion → MariaDB
