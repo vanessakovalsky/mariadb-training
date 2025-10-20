@@ -314,7 +314,7 @@ SHOW TABLE STATUS FROM formation_db WHERE Name = 'employes';
 -- Créer une requête d'analyse détaillée
 SELECT 
     'Nom de la table' AS Information,
-    Name AS Valeur
+    TABLE_NAME AS Valeur
 FROM information_schema.TABLES
 WHERE TABLE_SCHEMA = 'formation_db' AND TABLE_NAME = 'employes'
 
