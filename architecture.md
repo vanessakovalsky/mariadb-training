@@ -2,42 +2,7 @@
 
 **Objectif :** Comprendre le cycle de vie d'une requête, créer des tables avec différentes structures et implémenter le partitionnement.
 
-### Exercice 3.1 : Mise à plat du cycle d'exécution d'une requête
-
-**Schéma du cycle d'une requête SELECT :**
-
-1. **Connexion** : Le client établit une connexion TCP/IP ou via socket
-2. **Authentification** : Vérification des identifiants (user, host, password)
-3. **Réception de la requête** : Le daemon mysqld reçoit la requête SQL
-4. **Parsing** : Analyse syntaxique de la requête
-5. **Vérification des privilèges** : Contrôle des droits d'accès
-6. **Optimisation** : Le query optimizer génère un plan d'exécution
-7. **Accès au cache** : Recherche dans le buffer pool (InnoDB)
-8. **Lecture des données** :
-   - Si en cache : lecture en mémoire (rapide)
-   - Si non en cache : lecture depuis le disque (plus lent)
-9. **Exécution** : Application des filtres, jointures, tris
-10. **Construction du résultat** : Formatage des données
-11. **Retour au client** : Envoi via le réseau
-12. **Affichage** : Le client reçoit et affiche les résultats
-
-**Exercice pratique :**
-```sql
--- Activer le profiling
-SET profiling = 1;
-
--- Exécuter une requête
-SELECT * FROM employes WHERE departement_id = 5;
-
--- Analyser le profil d'exécution
-SHOW PROFILES;
-SHOW PROFILE FOR QUERY 1;
-
--- Voir le plan d'exécution
-EXPLAIN SELECT * FROM employes WHERE departement_id = 5;
-```
-
-### Exercice 3.2 : Création de tables et de vues
+## Création des tables nécessaires
 
 **Créer une base de données de test :**
 ```sql
@@ -121,6 +86,43 @@ INSERT INTO employes (matricule, nom, prenom, email, date_naissance, date_embauc
 ('EMP006', 'Moreau', 'Emma', 'emma.moreau@societe.com', '1987-09-25', '2014-11-03', 52000, 4, 'Contrôleur de gestion'),
 ('EMP007', 'Simon', 'Lucas', 'lucas.simon@societe.com', '1991-12-12', '2017-04-18', 41000, 5, 'Responsable logistique');
 ```
+
+### Exercice 3.1 : Mise à plat du cycle d'exécution d'une requête
+
+**Schéma du cycle d'une requête SELECT :**
+
+1. **Connexion** : Le client établit une connexion TCP/IP ou via socket
+2. **Authentification** : Vérification des identifiants (user, host, password)
+3. **Réception de la requête** : Le daemon mysqld reçoit la requête SQL
+4. **Parsing** : Analyse syntaxique de la requête
+5. **Vérification des privilèges** : Contrôle des droits d'accès
+6. **Optimisation** : Le query optimizer génère un plan d'exécution
+7. **Accès au cache** : Recherche dans le buffer pool (InnoDB)
+8. **Lecture des données** :
+   - Si en cache : lecture en mémoire (rapide)
+   - Si non en cache : lecture depuis le disque (plus lent)
+9. **Exécution** : Application des filtres, jointures, tris
+10. **Construction du résultat** : Formatage des données
+11. **Retour au client** : Envoi via le réseau
+12. **Affichage** : Le client reçoit et affiche les résultats
+
+**Exercice pratique :**
+```sql
+-- Activer le profiling
+SET profiling = 1;
+
+-- Exécuter une requête
+SELECT * FROM employes WHERE departement_id = 5;
+
+-- Analyser le profil d'exécution
+SHOW PROFILES;
+SHOW PROFILE FOR QUERY 1;
+
+-- Voir le plan d'exécution
+EXPLAIN SELECT * FROM employes WHERE departement_id = 5;
+```
+
+### Exercice 3.2 : Création  et de vues
 
 **Créer des vues :**
 ```sql
