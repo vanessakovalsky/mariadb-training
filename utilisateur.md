@@ -76,7 +76,7 @@ INSERT INTO commandes (client_id, date_commande, montant, statut) VALUES
 ```sql
 -- 1. Administrateur local (tous les droits)
 CREATE USER 'admin_local'@`localhost` IDENTIFIED BY 'AdminPass123!';
-GRANT ALL PRIVILEGES ON *.* TO 'admin_local'@'localhost' WITH GRANT
+GRANT ALL PRIVILEGES ON *.* TO 'admin_local'@'localhost' WITH GRANT OPTIONS;
 -- 2. Utilisateur applicatif (lecture/écriture sur test_security)
 CREATE USER 'app_user'@`%` IDENTIFIED BY 'AppPass456!';
 GRANT SELECT, INSERT, UPDATE, DELETE ON test_security.* TO 'app_user'@'%';
