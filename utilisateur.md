@@ -75,32 +75,32 @@ INSERT INTO commandes (client_id, date_commande, montant, statut) VALUES
 
 ```sql
 -- 1. Administrateur local (tous les droits)
-CREATE USER 'admin_local'@'localhost' IDENTIFIED BY 'AdminPass123!';
+CREATE USER 'admin_local'@`localhost` IDENTIFIED BY 'AdminPass123!';
 GRANT ALL PRIVILEGES ON *.* TO 'admin_local'@'localhost' WITH GRANT
 -- 2. Utilisateur applicatif (lecture/écriture sur test_security)
-CREATE USER 'app_user'@'%' IDENTIFIED BY 'AppPass456!';
+CREATE USER 'app_user'@`%` IDENTIFIED BY 'AppPass456!';
 GRANT SELECT, INSERT, UPDATE, DELETE ON test_security.* TO 'app_user'@'%';
 
 -- 3. Utilisateur en lecture seule
-CREATE USER 'readonly_user'@'%' IDENTIFIED BY 'ReadPass789!';
+CREATE USER 'readonly_user'@`%` IDENTIFIED BY 'ReadPass789!';
 GRANT SELECT ON test_security.* TO 'readonly_user'@'%';
 
 -- 4. Utilisateur avec accès limité à certaines colonnes
-CREATE USER 'marketing_user'@'%' IDENTIFIED BY 'MarketPass123!';
+CREATE USER 'marketing_user'@`%` IDENTIFIED BY 'MarketPass123!';
 GRANT SELECT (id, nom, email) ON test_security.clients TO 'marketing_user'@'%';
 
 -- 5. Utilisateur depuis un réseau spécifique
-CREATE USER 'network_user'@'192.168.1.%' IDENTIFIED BY 'NetworkPass456!';
+CREATE USER 'network_user'@`192.168.1.%` IDENTIFIED BY 'NetworkPass456!';
 GRANT SELECT, INSERT, UPDATE ON test_security.* TO 'network_user'@'192.168.1.%';
 
 -- 6. Utilisateur avec SSL obligatoire
-CREATE USER 'secure_user'@'%' 
+CREATE USER 'secure_user'@`%` 
 IDENTIFIED BY 'SecurePass789!' 
 REQUIRE SSL;
 GRANT SELECT ON test_security.* TO 'secure_user'@'%';
 
 -- 7. Utilisateur avec limitations de ressources
-CREATE USER 'limited_user'@'%' 
+CREATE USER 'limited_user'@`%` 
 IDENTIFIED BY 'LimitPass123!'
 WITH MAX_QUERIES_PER_HOUR 100
      MAX_CONNECTIONS_PER_HOUR 10
