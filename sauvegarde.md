@@ -1,3 +1,54 @@
+# 🛠️ ATELIER SAUVEGARDE STRUCTURE UNIQUEMENT
+
+### Objectif
+Sauvegarder uniquement la structure (schéma) sans les données, puis avec les données.
+
+### Partie A : Structure seule
+
+```bash
+# Sauvegarde structure uniquement
+mysqldump -u root -p --no-data atelier_backup > structure_only.sql
+
+# Examiner le fichier
+cat structure_only.sql
+# On voit les CREATE TABLE mais pas d'INSERT
+```
+
+### Partie B : Structure + Données d'un utilisateur
+
+```bash
+# Créer d'abord un utilisateur
+mysql -u root -p << EOF
+CREATE USER IF NOT EXISTS 'utilisateur_test'@'localhost' IDENTIFIED BY 'password123';
+GRANT ALL PRIVILEGES ON atelier_backup.* TO 'utilisateur_test'@'localhost';
+FLUSH PRIVILEGES;
+EOF
+
+# Sauvegarde du schéma de cet utilisateur
+mysqldump -u root -p \
+  --no-data \
+  --routines \
+  --triggers \
+  atelier_backup > schema_user.sql
+
+# Variante : avec les données
+mysqldump -u root -p \
+  --single-transaction \
+  --routines \
+  --triggers \
+  atelier_backup > schema_et_data_user.sql
+```
+
+### Utilisation
+
+```bash
+# Restaurer uniquement la structure (autre serveur, autre base)
+mysql -u root -p -e "CREATE DATABASE atelier_backup_structure;"
+mysql -u root -p atelier_backup_structure < structure_only.sql
+```
+
+
+
 # 🛠️ ATELIER : AUTOMATISATION AVEC SCRIPT ET SFTP 
 
 ### Objectif
