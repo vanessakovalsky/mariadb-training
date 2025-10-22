@@ -1,3 +1,73 @@
+## 🛠️ ATELIER  : SAUVEGARDE ET RESTAURATION COMPLÈTE 
+
+### Objectif
+Effectuer une sauvegarde complète d'une base et la restaurer sur une nouvelle base.
+
+### Étapes
+
+**1. Créer une base de test**
+```sql
+CREATE DATABASE atelier_backup;
+USE atelier_backup;
+
+CREATE TABLE clients (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100),
+    email VARCHAR(100),
+    date_inscription DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO clients (nom, email) VALUES
+('Dupont', 'dupont@email.fr'),
+('Martin', 'martin@email.fr'),
+('Bernard', 'bernard@email.fr');
+
+CREATE TABLE commandes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT,
+    montant DECIMAL(10,2),
+    date_commande DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (client_id) REFERENCES clients(id)
+);
+
+INSERT INTO commandes (client_id, montant) VALUES
+(1, 150.50),
+(2, 200.00),
+(1, 75.25);
+```
+
+**2. Effectuer la sauvegarde**
+```bash
+# Sauvegarde complète avec horodatage
+mysqldump -u root -p \
+  --single-transaction \
+  --routines \
+  --triggers \
+  atelier_backup > atelier_backup_$(date +%Y%m%d_%H%M%S).sql
+```
+
+**3. Simuler une perte de données**
+```sql
+DROP DATABASE atelier_backup;
+```
+
+**4. Restaurer la base**
+```bash
+# Créer la base
+mysql -u root -p -e "CREATE DATABASE atelier_backup;"
+
+# Restaurer
+mysql -u root -p atelier_backup < atelier_backup_20251019_143000.sql
+```
+
+**5. Vérifier la restauration**
+```sql
+USE atelier_backup;
+SELECT * FROM clients;
+SELECT * FROM commandes;
+SHOW CREATE TABLE commandes;
+```
+
 # 🛠️ ATELIER SAUVEGARDE STRUCTURE UNIQUEMENT
 
 ### Objectif
